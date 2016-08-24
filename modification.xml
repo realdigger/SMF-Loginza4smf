@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	This is an example modification file for SMF packages.
+
+	ATTENTION: If you are trying to install this manually, you should try
+	the package manager.  If it will not work for you, please take a look
+	at the following for information on this format:
+		http://mods.simplemachines.org/docs/manual-install.php
+
+================================================================================
+
+	Modification files can be used to modify files so that they do what
+	your package needs them to do to work properly.
+
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>digger:Loginza4smf</id>
+	<version>1.0</version>
+
+<!-- Main code -->
+
+	<file name="$themedir/index.template.php">
+
+		<operation>
+
+			<search position="before"><![CDATA[<br /><input type="text" name="openid_identifier" id="openid_url" size="25" class="input_text openid_login" />';]]></search>
+
+			<add><![CDATA[
+			
+    // * Loginza4smf
+    global $sourcedir;
+    require_once($sourcedir . '/Subs-Loginza.php');
+
+    if (!empty($_POST['token'])) loginza_register($_POST['token']);
+      echo '
+      <script src="http://loginza.ru/js/widget.js" type="text/javascript"></script>
+          <a id="loginza" href="'. loginza_widget() .'" class="loginza" title="Loginza" />
+            <img src="' . $settings['default_images_url'] . '/loginza.gif" alt="Loginza" />
+          </a>';
+    // Loginza4smf *
+]]></add>
+					
+		</operation>
+
+ 	</file>
+ 		
+</modification>
