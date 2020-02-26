@@ -40,7 +40,9 @@ function loginza_login($identity = '', $provider = '')
         return false;
     }
 
-    $request = $smcFunc['db_query']('', '
+    $request = $smcFunc['db_query'](
+        '',
+        '
 		SELECT id_member, member_name, id_group, additional_groups, passwd, password_salt, is_activated
 		FROM {db_prefix}members
 		WHERE loginza_provider="' . $provider . '" AND loginza_identity="' . $identity . '"
@@ -73,7 +75,6 @@ function loginza_register($token = '')
 
     // Register new user
     if (empty($registered)) {
-
         $regOptions = array();
         require_once $sourcedir . '/Loginza/LoginzaUserProfile.class.php';
         require_once $sourcedir . '/Subs-Members.php';
@@ -89,8 +90,10 @@ function loginza_register($token = '')
         $provider = str_replace(array('www.', '@'), '', $url['host']);
 
         // Main user fields
-        $regOptions['username'] = $LoginzaProfile->normalize($LoginzaProfile->genNickName(),
-            $modSettings['loginza_name_delimer']);
+        $regOptions['username'] = $LoginzaProfile->normalize(
+            $LoginzaProfile->genNickName(),
+            $modSettings['loginza_name_delimer']
+        );
         $regOptions['email'] = (!empty($UserProfile->email)) ? $UserProfile->email : $regOptions['username'] . '@' . $provider . '.local';
         $password = $LoginzaProfile->genRandomPassword(8);
         $regOptions['password'] = $password;
@@ -137,7 +140,9 @@ function loginza_register($token = '')
         $regOptions['username'] = substr($regOptions['username'], 0, 25);
 
         // Check if the email address is in use.
-        $request = $smcFunc['db_query']('', '
+        $request = $smcFunc['db_query'](
+            '',
+            '
       SELECT id_member
       FROM {db_prefix}members
       WHERE email_address = {string:email_address}
@@ -158,5 +163,3 @@ function loginza_register($token = '')
         loginza_login($UserProfile->identity, $UserProfile->provider);
     }
 }
-
-?>

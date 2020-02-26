@@ -9,5 +9,3 @@
 
 $smcFunc['db_add_column']('{db_prefix}members', array('name' => 'loginza_provider', 'type' => 'TEXT', 'default' => ''));
 $smcFunc['db_add_column']('{db_prefix}members', array('name' => 'loginza_identity', 'type' => 'TEXT', 'default' => ''));
-
-?>
